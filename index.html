@@ -107,6 +107,7 @@
             border: 3px solid #d4af37; 
             box-shadow: 0 4px 20px rgba(0,0,0,0.6);
             margin-bottom: 20px;
+            cursor: pointer;
         }
 
         h1 {
@@ -356,11 +357,86 @@
             object-fit: cover;
             border-radius: 6px;
             background-color: #2a2a2a;
-            transition: transform 0.2s ease;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
         }
 
         .gallery-item:hover {
             transform: scale(1.02);
+            opacity: 0.9;
+        }
+
+        /* МОДАЛЬНЕ ВІКНО ДЛЯ ПЕРЕГЛЯДУ ФОТО (LIGHTBOX) */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .lightbox-modal.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.8);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: #ffffff;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.2s;
+        }
+
+        .lightbox-close:hover {
+            color: #d4af37;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 15px 20px;
+            user-select: none;
+            background-color: rgba(0,0,0,0.4);
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .lightbox-nav:hover {
+            background-color: rgba(212, 175, 55, 0.8);
+            color: #121212;
+        }
+
+        .lightbox-prev {
+            left: 15px;
+        }
+
+        .lightbox-next {
+            right: 15px;
         }
 
         /* Біографія */
@@ -419,7 +495,7 @@
 
         <!-- БЛОК 1: ГОЛОВНИЙ ЕКРАН -->
         <div class="hero-section">
-            <img src="vimg/01.jpg" alt="Фото Віталія Малюшевського" class="profile-photo">
+            <img src="vimg/01.jpg" alt="Фото Віталія Малюшевського" class="profile-photo" onclick="openLightboxSrc('vimg/01.jpg')">
             <h1>ВІТАЛІЙ МАЛЮШЕВСЬКИЙ</h1>
             <div class="dates">29.09.2000 — 30.04.2026</div>
             
@@ -528,7 +604,7 @@
             <div class="audio-intro">
                 Нас п'ятеро в мами, і він завжди був нашим містком, нашою радістю та щирістю. Його посмішка на цих кадрах залишається з нами назавжди.
             </div>
-            <div class="gallery-grid">
+            <div class="gallery-grid" id="gallery-grid">
                 <img src="vphoto/1.jpg" alt="Кадр з життя 1" class="gallery-item">
                 <img src="vphoto/2.jpg" alt="Кадр з життя 2" class="gallery-item">
                 <img src="vphoto/3.jpg" alt="Кадр з життя 3" class="gallery-item">
@@ -601,6 +677,14 @@
             Сторінку створено родиною з глибокою любов'ю та повагою.
         </div>
 
+    </div>
+
+    <!-- МОДАЛЬНЕ ВІКНО ДЛЯ ПЕРЕГЛЯДУ ФОТО -->
+    <div id="lightbox-modal" class="lightbox-modal">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <span class="lightbox-nav lightbox-prev" onclick="changeLightboxImage(-1)">&#10094;</span>
+        <img id="lightbox-img" class="lightbox-content" src="" alt="Перегляд зображення">
+        <span class="lightbox-nav lightbox-next" onclick="changeLightboxImage(1)">&#10095;</span>
     </div>
 
 <script>
@@ -734,6 +818,54 @@
 
     player.addEventListener('ended', () => {
         changeTrack(currentTrackIndex + 1);
+    });
+
+    /* ФУНКЦІОНАЛ ГАЛЕРЕЇ ТА LIGHTBOX (ПЕРЕГЛЯДУ ФОТО) */
+    const galleryImages = Array.from(document.querySelectorAll('#gallery-grid .gallery-item'));
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const lightboxImg = document.getElementById('lightbox-img');
+    let currentPhotoIndex = 0;
+
+    galleryImages.forEach((img, index) => {
+        img.addEventListener('click', () => {
+            currentPhotoIndex = index;
+            showLightboxImage();
+        });
+    });
+
+    function showLightboxImage() {
+        lightboxImg.src = galleryImages[currentPhotoIndex].src;
+        lightboxModal.classList.add('active');
+    }
+
+    function openLightboxSrc(src) {
+        lightboxImg.src = src;
+        lightboxModal.classList.add('active');
+    }
+
+    function closeLightbox() {
+        lightboxModal.classList.remove('active');
+    }
+
+    function changeLightboxImage(direction) {
+        currentPhotoIndex += direction;
+        if (currentPhotoIndex < 0) currentPhotoIndex = galleryImages.length - 1;
+        if (currentPhotoIndex >= galleryImages.length) currentPhotoIndex = 0;
+        lightboxImg.src = galleryImages[currentPhotoIndex].src;
+    }
+
+    // Закриття лайтбоксу по кліку на фоновий простір або натисканням Esc
+    lightboxModal.addEventListener('click', (e) => {
+        if (e.target === lightboxModal) {
+            closeLightbox();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!lightboxModal.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') changeLightboxImage(-1);
+        if (e.key === 'ArrowRight') changeLightboxImage(1);
     });
 </script>
 
