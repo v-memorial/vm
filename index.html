@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Пам'ять про Героя</title>
+    <title>Пам'ять про Героя — Віталій Малюшевський</title>
     <style>
         /* Базові налаштування стилю (Темна витончена тема) */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #121212;
@@ -15,18 +19,18 @@
             line-height: 1.6;
         }
 
-        /* СТАРТОВИЙ ЕКРАН З ФОНОМ ДЛЯ ОБХОДУ БЛОКУВАННЯ ЗВУКУ */
+        /* СТАРТОВИЙ ЕКРАН З ФОНОМ */
         #intro-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(rgba(18, 18, 18, 0.55), rgba(18, 18, 18, 0.55)), url('vimg/00-3.jpg');
+            background: linear-gradient(rgba(18, 18, 18, 0.65), rgba(18, 18, 18, 0.65)), url('vimg/00-3.jpg');
             background-size: cover;
             background-position: center;
-            backdrop-filter: blur(3px); 
-            -webkit-backdrop-filter: blur(3px);
+            backdrop-filter: blur(4px); 
+            -webkit-backdrop-filter: blur(4px);
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -34,29 +38,35 @@
             align-items: center;
             text-align: center;
             padding: 20px;
-            box-sizing: border-box;
             transition: opacity 0.8s ease, visibility 0.8s;
         }
 
+        .heart {
+            font-size: 24px;
+            margin-bottom: 15px;
+            letter-spacing: 5px;
+        }
+
         .intro-title {
-            font-size: 28px;
+            font-size: 32px;
             color: #ffffff;
             margin-bottom: 10px;
             letter-spacing: 2px;
             font-weight: bold;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+            line-height: 1.2;
         }
 
         .intro-sub {
             font-size: 15px;
             color: #d4af37; 
             margin-bottom: 35px;
-            max-width: 300px;
-            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+            max-width: 320px;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
         }
 
         .play-btn {
-            background-color: rgba(18, 18, 18, 0.6);
+            background-color: rgba(18, 18, 18, 0.7);
             color: #d4af37;
             border: 2px solid #d4af37;
             padding: 15px 35px;
@@ -70,32 +80,32 @@
             backdrop-filter: blur(4px);
         }
 
-        .play-btn:active {
+        .play-btn:hover, .play-btn:active {
             background-color: #d4af37;
             color: #121212;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
         }
 
-        /* ОСНОВНИЙ КОНТЕНТ САЙТУ */
+        /* ОСНОВНИЙ КОНТЕНТ */
         .container {
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
             padding: 20px;
-            box-sizing: border-box;
         }
 
-        /* Блок 1: Головний екран */
+        /* Головний блок */
         .hero-section {
             text-align: center;
             padding: 30px 10px 10px 10px;
         }
 
         .profile-photo {
-            width: 200px;
-            height: 200px;
+            width: 210px;
+            height: 210px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #d4af37; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
             margin-bottom: 20px;
         }
 
@@ -104,57 +114,38 @@
             color: #ffffff;
             margin: 10px 0 5px 0;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
-
-        p {
-            text-align: justify;
-            -webkit-hyphens: auto;
-            -ms-hyphens: auto;
-            hyphens: auto;
-        }
-        
 
         .dates {
-            font-size: 14px;
+            font-size: 15px;
             color: #a0a0a0; 
             margin-bottom: 15px;
             font-weight: bold;
+            letter-spacing: 0.5px;
         }
 
-        /* СТИЛІ ДЛЯ ТЕКСТУ ТА ЧЕРВОНИХ ЛІНІЙ (ЯК НА ТАБЛИЧЦІ) */
         .hero-details {
             font-size: 14px;
             color: #ffffff; 
-            font-style: normal;
             line-height: 1.6;
             margin: 15px auto 20px auto;
             max-width: 85%;
-            white-space: pre-line;
             padding: 12px 0;
             position: relative;
         }
 
-        /* Червона лінія зверху */
-        .hero-details::before {
+        .hero-details::before, .hero-details::after {
             content: "";
             position: absolute;
-            top: 0;
             left: 10%;
             width: 80%;
             height: 1px;
             background: linear-gradient(to right, rgba(139, 0, 0, 0), rgba(178, 34, 34, 0.8), rgba(139, 0, 0, 0));
         }
 
-        /* Червона лінія знизу */
-        .hero-details::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 10%;
-            width: 80%;
-            height: 1px;
-            background: linear-gradient(to right, rgba(139, 0, 0, 0), rgba(178, 34, 34, 0.8), rgba(139, 0, 0, 0));
-        }
+        .hero-details::before { top: 0; }
+        .hero-details::after { bottom: 0; }
 
         .quote {
             font-style: italic;
@@ -162,7 +153,7 @@
             font-size: 15px;
             padding: 0 20px;
             margin: 20px 0;
-            position: relative;
+            line-height: 1.5;
         }
 
         hr {
@@ -172,12 +163,13 @@
             margin: 30px 0;
         }
 
-        /* Загальні стилі для розділів */
+        /* Загальні стилі для блоків */
         h2 {
             font-size: 20px;
             color: #ffffff;
             border-left: 3px solid #d4af37;
             padding-left: 10px;
+            margin-top: 0;
             margin-bottom: 15px;
         }
 
@@ -186,23 +178,22 @@
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
 
-        /* Блок: Плеєр та Музика */
         .audio-intro {
             font-size: 14px;
             color: #b0b0b0;
             margin-bottom: 15px;
         }
 
-        /* КАСТОМНИЙ ТЕМНИЙ ПЛЕЄР */
+        /* ПЛЕЄР */
         .custom-player-container {
             background-color: #121212;
             border: 1px solid rgba(212, 175, 55, 0.25);
             border-radius: 10px;
-            padding: 12px 15px;
-            margin: 20px 0 20px 0;
+            padding: 15px;
+            margin: 20px 0;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
         }
 
@@ -222,13 +213,13 @@
             color: #d4af37;
             letter-spacing: 0.5px;
             margin-bottom: 2px;
+            text-transform: uppercase;
         }
 
         .track-name {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 500;
             color: #ffffff;
-            letter-spacing: 0.2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -265,7 +256,7 @@
             padding-left: 2px;
         }
 
-        .player-btn:active {
+        .player-btn:hover, .player-btn:active {
             background-color: #d4af37;
             color: #121212;
         }
@@ -312,7 +303,7 @@
         .track-item {
             display: flex;
             align-items: center;
-            padding: 12px 8px;
+            padding: 12px 10px;
             border-bottom: 1px solid #2a2a2a;
             font-size: 14px;
             cursor: pointer;
@@ -321,13 +312,13 @@
         }
 
         .track-item:hover {
-            background-color: rgba(255, 255, 255, 0.03);
+            background-color: rgba(255, 255, 255, 0.04);
         }
 
         .track-item.active {
-            background-color: rgba(212, 175, 55, 0.08);
-            border-left: 2px solid #d4af37;
-            padding-left: 6px;
+            background-color: rgba(212, 175, 55, 0.1);
+            border-left: 3px solid #d4af37;
+            padding-left: 8px;
         }
 
         .track-item:last-child {
@@ -335,14 +326,14 @@
         }
 
         .track-icon {
-            margin-right: 15px;
+            margin-right: 12px;
             color: #d4af37;
             font-size: 12px;
             width: 14px;
             text-align: center;
         }
 
-        /* Блок 3: Сповідь */
+        /* Сповідь */
         .poem-text {
             font-size: 15px;
             white-space: pre-line;
@@ -352,7 +343,7 @@
             line-height: 1.8;
         }
 
-        /* Блок 4: Фотогалерея */
+        /* Фотогалерея */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -361,24 +352,32 @@
 
         .gallery-item {
             width: 100%;
-            height: 140px;
+            height: 150px;
             object-fit: cover;
             border-radius: 6px;
             background-color: #2a2a2a;
+            transition: transform 0.2s ease;
         }
 
-        /* СТИЛІ ДЛЯ ВЕЛИКОГО БЛОКУ БІОГРАФІЇ ВНИЗУ */
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        /* Біографія */
         .bio-text {
             font-size: 15px;
             line-height: 1.7;
             color: #e0e0e0;
             text-align: justify;
+            -webkit-hyphens: auto;
+            -ms-hyphens: auto;
+            hyphens: auto;
         }
 
         .bio-text p {
             margin-top: 0;
             margin-bottom: 15px;
-            text-indent: 15px; /* Гарний абзацний відступ */
+            text-indent: 15px;
         }
 
         .bio-text p:last-child {
@@ -400,18 +399,18 @@
         /* Футер */
         .footer {
             text-align: center;
-            padding: 20px 0;
-            font-size: 12px;
-            color: #666666;
+            padding: 20px 0 30px 0;
+            font-size: 13px;
+            color: #777777;
         }
     </style>
 </head>
 <body>
 
-    <!-- ЕКРАН-ЗАСТАВКА З ФОНОМ (Захист від блокування звуку) -->
+    <!-- ЕКРАН-ЗАСТАВКА -->
     <div id="intro-overlay">
         <div class="heart">💔💔💔</div>
-        <div class="intro-title"><div>Віталій</div> <div>Малюшевський</div></div>
+        <div class="intro-title">Віталій<br>Малюшевський</div>
         <div class="intro-sub">Сторінка пам'яті Героя та музика його душі</div>
         <button class="play-btn" onclick="initMemorialSite()">ПЕРЕГЛЯНУТИ</button>
     </div>
@@ -420,14 +419,12 @@
 
         <!-- БЛОК 1: ГОЛОВНИЙ ЕКРАН -->
         <div class="hero-section">
-            <img src="vimg/01.jpg" alt="Фото Віталіка" class="profile-photo">
+            <img src="vimg/01.jpg" alt="Фото Віталія Малюшевського" class="profile-photo">
             <h1>ВІТАЛІЙ МАЛЮШЕВСЬКИЙ</h1>
             <div class="dates">29.09.2000 — 30.04.2026</div>
             
-            <!-- БЛОК ДЕТАЛЕЙ З БІЛИМ ТЕКСТОМ ТА ЧЕРВОНИМИ ЛІНІЯМИ -->
             <div class="hero-details">
-                Загинув поблизу н.п. Піщане,
-                Харківської області
+                Загинув поблизу н.п. Піщане, Харківської області<br>
                 Похований в с-щі Залізці
             </div>
 
@@ -443,13 +440,13 @@
                 Віталік не уявляв свого життя без музики. Його фірмова колонка завжди була поруч — і в будні, і в свята, наповнюючи наше подвір'я звуками, під які хотілося жити.
             </div>
             
-            <!-- Базовий тег аудіо -->
+            <!-- Аудіо тег -->
             <audio id="memorial-player" preload="auto">
                 <source id="audio-source" src="vmp3/Останній лист.mp3" type="audio/mpeg">
                 Ваш браузер не підтримує аудіоплеєр.
             </audio>
 
-            <!-- НАЛАШТОВАНИЙ КАСТОМНИЙ ПЛЕЄР -->
+            <!-- ПЛЕЄР -->
             <div class="custom-player-container">
                 <div class="track-main-title">
                     <span id="player-author" class="track-author">BIG.PASHAMAN</span>
@@ -457,9 +454,9 @@
                 </div>
                 
                 <div class="player-controls">
-                    <button id="custom-prev-btn" class="player-btn">⏮</button>
-                    <button id="custom-play-btn" class="player-btn play-main-btn">▶</button>
-                    <button id="custom-next-btn" class="player-btn">⏭</button>
+                    <button id="custom-prev-btn" class="player-btn" title="Попередній трек">⏮</button>
+                    <button id="custom-play-btn" class="player-btn play-main-btn" title="Відтворити/Пауза">▶</button>
+                    <button id="custom-next-btn" class="player-btn" title="Наступний трек">⏭</button>
                     
                     <div class="progress-container" id="progress-container">
                         <div class="progress-bar" id="progress-bar"></div>
@@ -471,7 +468,7 @@
 
             <div class="playlist-title">Улюблені пісні Віталіка:</div>
             
-            <!-- ІНТЕРАКТИВНИЙ СПИСОК ПІСЕНЬ -->
+            <!-- СПИСОК ПІСЕНЬ -->
             <ul class="track-list" id="playlist">
                 <li class="track-item" data-src="vmp3/khlystun.mp3" data-author="Василь Хлистун" data-name="Хлопці будем жити">
                     <span class="track-icon">▶</span> 
@@ -528,7 +525,7 @@
         <!-- БЛОК 4: ЖИВА ПАМ'ЯТЬ -->
         <div class="block">
             <h2>Таким ми його пам'ятаємо</h2>
-            <div class="audio-intro" style="margin-bottom: 10px;">
+            <div class="audio-intro">
                 Нас п'ятеро в мами, і він завжди був нашим містком, нашою радістю та щирістю. Його посмішка на цих кадрах залишається з нами назавжди.
             </div>
             <div class="gallery-grid">
@@ -536,26 +533,25 @@
                 <img src="vphoto/2.jpg" alt="Кадр з життя 2" class="gallery-item">
                 <img src="vphoto/3.jpg" alt="Кадр з життя 3" class="gallery-item">
                 <img src="vphoto/4.jpg" alt="Кадр з життя 4" class="gallery-item">
-                <img src="vphoto/4.jpg" alt="Кадр з життя 1" class="gallery-item">
-                <img src="vphoto/6.jpg" alt="Кадр з життя 1" class="gallery-item">
-                <img src="vphoto/7.jpg" alt="Кадр з життя 2" class="gallery-item">
-                <img src="vphoto/8.jpg" alt="Кадр з життя 3" class="gallery-item">
-                <img src="vphoto/9.jpg" alt="Кадр з життя 4" class="gallery-item">
-                <img src="vphoto/10.jpg" alt="Кадр з життя 1" class="gallery-item">
-                <img src="vphoto/12.jpg" alt="Кадр з життя 1" class="gallery-item">
-                <img src="vphoto/13.jpg" alt="Кадр з життя 2" class="gallery-item">
-                <img src="vphoto/14.jpg" alt="Кадр з життя 3" class="gallery-item">
-                <img src="vphoto/16.jpg" alt="Кадр з життя 4" class="gallery-item">
-                <img src="vphoto/17.jpg" alt="Кадр з життя 1" class="gallery-item">
-                <img src="vphoto/18.jpg" alt="Кадр з життя 1" class="gallery-item">
-                <img src="vphoto/19.jpg" alt="Кадр з життя 2" class="gallery-item">
-                <img src="vphoto/20.jpg" alt="Кадр з життя 3" class="gallery-item">
-                <img src="vphoto/21.jpg" alt="Кадр з життя 4" class="gallery-item">
-                <img src="vphoto/22.jpg" alt="Кадр з життя 1" class="gallery-item">
+                <img src="vphoto/6.jpg" alt="Кадр з життя 5" class="gallery-item">
+                <img src="vphoto/7.jpg" alt="Кадр з життя 6" class="gallery-item">
+                <img src="vphoto/8.jpg" alt="Кадр з життя 7" class="gallery-item">
+                <img src="vphoto/9.jpg" alt="Кадр з життя 8" class="gallery-item">
+                <img src="vphoto/10.jpg" alt="Кадр з життя 9" class="gallery-item">
+                <img src="vphoto/12.jpg" alt="Кадр з життя 10" class="gallery-item">
+                <img src="vphoto/13.jpg" alt="Кадр з життя 11" class="gallery-item">
+                <img src="vphoto/14.jpg" alt="Кадр з життя 12" class="gallery-item">
+                <img src="vphoto/16.jpg" alt="Кадр з життя 13" class="gallery-item">
+                <img src="vphoto/17.jpg" alt="Кадр з життя 14" class="gallery-item">
+                <img src="vphoto/18.jpg" alt="Кадр з життя 15" class="gallery-item">
+                <img src="vphoto/19.jpg" alt="Кадр з життя 16" class="gallery-item">
+                <img src="vphoto/20.jpg" alt="Кадр з життя 17" class="gallery-item">
+                <img src="vphoto/21.jpg" alt="Кадр з життя 18" class="gallery-item">
+                <img src="vphoto/22.jpg" alt="Кадр з життя 19" class="gallery-item">
             </div>
         </div>
 
-        <!-- БЛОК 5: ПОВНА ДЕТАЛЬНА БІОГРАФІЯ В САМОМУ НИЗУ -->
+        <!-- БЛОК 5: БІОГРАФІЯ -->
         <div class="block">
             <h2>Світла пам'ять: історія життя Віталія</h2>
             <div class="bio-text">
@@ -569,9 +565,9 @@
                 
                 <p>Після закінчення школи вступив до Зборівського коледжу, де здобув фах будівельника. Під час навчання проявляв активність у громадському житті закладу, брав участь у творчих виступах та різноманітних заходах. Практику проходив у Польщі та Одесі, де здобував професійний досвід і вдосконалював свої навички.</p>
                 
-                <p>Віталій був людиною великих мрій і планів. Ще маленьким хлопчиком жартома пообіцяв мамі, що колись купить їй літак. За цією дитячою обіцянкою приховувалося його велике серце та бажання зробити щасливими найдорожчих людей. Він завжди прагнув більшого, ставив перед собою цілі та наполегливо працював задля їх досягнення.</p>
+                <p>Віталій був людиною великих мрій і планів. Ще маленьким хлопчиком жартома пообіцяв мамі, що колись купити їй літак. За цією дитячою обіцянкою приховувалося його велике серце та бажання зробити щасливими найдорожчих людей. Він завжди прагнув більшого, ставив перед собою цілі та наполегливо працював задля їх досягнення.</p>
                 
-                <p>Однією з його найбільших мрій було облаштувати батьківський дім, зробити ремонти власними руками, створити для рідних затишок і комфорт. Він мав золоті руки, любив працювати та вмів виконувати будівельні роботи. Віталій часто говорив про свої плани на майбутнє, адже бачив свое життя поруч із сім'єю, у рідному домі.</p>
+                <p>Однією з його найбільших мрій було облаштувати батьківський дім, зробити ремонти власними руками, створити для рідних затишок і комфорт. Він мав золоті руки, любив працювати та вмів виконувати будівельні роботи. Віталій часто говорив про свої плани на майбутнє, адже бачив своє життя поруч із сім'єю, у рідному домі.</p>
                 
                 <p>У дев'ятнадцять років він поїхав працювати до Нідерландів, де прожив і працював майже два з половиною роки. Там зарекомендував себе як сумлінний, відповідальний і професійний майстер. Працюючи поруч із досвідченими старшими колегами, він переймав їхні знання та постійно вдосконалював свої вміння. Завдяки своєму характеру легко знаходив спільну мову як із молодими людьми, так і зі старшими.</p>
                 
@@ -591,7 +587,7 @@
                 
                 <p>Звістка про його загибель стала болючим ударом для всієї родини, друзів, близьких та знайомих. Важко знайти слова, які могли б передати біль цієї втрати.</p>
                 
-                <p>Та попри смуток, у серцях усіх, хто знав Віталія, назавжди залишиться пам'ять про світлу, добру та життєрадісну человеку. Люблячий син, турботливий брат, надійний друг, працьовитий господар і щирий українець — саме таким його пам'ятатимуть усі, кому пощастило йти поруч із ним життєвою дорогою.</p>
+                <p>Та попри смуток, у серцях усіх, хто знав Віталія, назавжди залишиться пам'ять про світлу, добру та життєрадісну людину. Люблячий син, турботливий брат, надійний друг, працьовитий господар і щирий українець — саме таким його пам'ятатимуть усі, кому пощастило йти поруч із ним життєвою дорогою.</p>
                 
                 <div class="bio-honor">
                     Світла пам'ять Герою.<br>
@@ -606,7 +602,7 @@
         </div>
 
     </div>
-    
+
 <script>
     const player = document.getElementById('memorial-player');
     const audioSource = document.getElementById('audio-source');
@@ -625,8 +621,7 @@
         {
             src: "vmp3/Останній лист.mp3",
             author: "BIG.PASHAMAN",
-            name: "Останній лист Віталія Малюшевського",
-            isMainOnly: true
+            name: "Останній лист Віталія Малюшевського"
         },
         ...playlistItems.map(item => ({
             src: item.getAttribute('data-src'),
@@ -647,7 +642,7 @@
             playBtn.innerText = '⏸';
             playBtn.style.paddingLeft = '0px';
         }).catch(error => {
-            console.log("Очікування файлів музики:", error);
+            console.log("Очікування взаємодії або завантаження файлів:", error);
         });
 
         overlay.style.opacity = '0';
